@@ -1,6 +1,3 @@
-exists('g:vscode')
-
-" display filename
 set title
 
 " encoding
@@ -49,7 +46,8 @@ set wildmode=list:longest,full
 set showcmd
 
 " use clipboard
-set clipboard=unnamed,autoselect
+
+" set clipboard=unnamed,autoselect
 
 set whichwrap=b,s,h,l,<,>,~,[,]
 
@@ -76,21 +74,26 @@ nnoremap gk k
 nnoremap <down> gj
 nnoremap <up> gk
 
-nmap <silent> <C-k> :bnext<CR>
-nmap <silent> <C-j> :bprev<CR>
+nmap <silent> <C-l> :bnext<CR>
+nmap <silent> <C-h> :bprev<CR>
 
 inoremap <silent> jj <esc>
 
 nnoremap Y y$
+
+nnoremap <Space>y "*yy
+vnoremap <Space>y "*yy
+nnoremap <Space>d "*dd
+vnoremap <Space>d "*dd
 
 " remove highlights
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 
 " term
 if has('nvim')
-  command! -nargs=* Term split | wincmd p | resize 12 | terminal <args>
-  command! -nargs=* Termv vsplit | wincmd p | vertical resize 30 | terminal <args>
-  nnoremap <C-@> :Term<CR>
+    command! -nargs=* Term split | wincmd p | resize 12 | set nonumber | terminal <args>
+    command! -nargs=* Termv vsplit | wincmd p | vertical resize 30 | set nonumber | terminal <args>
+    nnoremap <C-@> :Term<CR>
 endif
 
 tnoremap <silent> jj <C-\><C-n>
@@ -121,6 +124,13 @@ if &term =~ "xterm"
     endfunction
 
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+endif
+
+"make undo persistent
+if has('persistent_undo')
+	let undo_path = expand('~/.vim/undo')
+	exe 'set undodir=' .. undo_path
+	set undofile
 endif
 
 "dein scripts-----------------------------

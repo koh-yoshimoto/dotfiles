@@ -32,6 +32,17 @@ repo = 'hrsh7th/vim-vsnip-integ'
 # git
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
+hook_add = '''
+"" git操作
+    nnoremap g[ :GitGutterPrevHunk<CR>
+    nnoremap g] :GitGutterNextHunk<CR>
+    nnoremap gh :GitGutterLineHighlightsToggle<CR>
+    nnoremap gp :GitGutterPreviewHunk<CR>
+    highlight GitGutterAdd ctermfg=green
+    highlight GitGutterChange ctermfg=blue
+    highlight GitGutterDelete ctermfg=red
+    set updatetime=250
+'''
 
 # vim-airline dependency
 [[plugins]]
@@ -59,23 +70,34 @@ hook_add = '''
         let g:airline_section_a = airline#section#create(['mode', 'crypt'])
 '''
 
-# nerdtree dependency
 [[plugins]]
-repo = 'Xuyuanp/nerdtree-git-plugin'
+repo = 'lambdalisue/fern-git-status.vim'
 
-# nerdtree dependency
 [[plugins]]
-repo = 'ryanoasis/vim-devicons'
+repo = 'lambdalisue/nerdfont.vim'
 
-# nerdtree
 [[plugins]]
-repo = 'preservim/nerdtree'
-depends = ['Xuyuanp/nerdtree-git-plugin', 'ryanoasis/vim-devicons']
+repo = 'lambdalisue/fern-renderer-nerdfont.vim'
 hook_add = '''
-        nnoremap <leader>n :NERDTreeFocus<CR>
-        nnoremap <C-t> :NERDTreeToggle<CR>
-        let g:airline#extensions#tabline#enabled = 1
-        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  let g:fern#renderer = 'nerdfont'
+'''
+
+[[plugins]]
+repo = 'lambdalisue/glyph-palette.vim'
+hook_add = '''
+  augroup my-glyph-palette
+    autocmd! *
+    autocmd FileType fern call glyph_palette#apply()
+    autocmd FileType nerdtree,startify call glyph_palette#apply()
+  augroup END
+'''
+
+[[plugins]]
+repo = 'lambdalisue/fern.vim'
+hook_add = '''
+        let g:fern#default_hidden=1
+        let g:fern#renderer = 'nerdfont'
+        nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>
 '''
 
 [[plugins]]
@@ -93,4 +115,58 @@ hook_add = '''
 
 [[plugins]]
 repo = 'sainnhe/gruvbox-material'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+hook_add = '''
+        nnoremap s <Plug>(easymotion-overwin-f2)
+'''
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
+
+# fzf
+[[plugins]]
+repo = 'junegunn/fzf'
+hook_post_update = './install --all'
+merged = '0'
+
+# fzf.vim
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = 'fzf'
+hook_add = '''
+    command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \ 'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
+    \ <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
+    \ : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+    \ <bang>0)
+    nnoremap <silent> ,f :GFiles<CR>
+    nnoremap <silent> ,F :GFiles?<CR>
+    nnoremap <silent> ,b :Buffers<CR>
+    nnoremap <silent> ,l :BLines<CR>
+    nnoremap <silent> ,h :History<CR>
+'''
+
+# markdown
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+
+[[plugins]]
+repo = 'previm/previm'
+hook_add = '''
+    autocmd BufRead,BufNewFile *.md  set filetype=markdown
+    let g:vim_markdown_folding_disabled=1
+    let g:previm_enable_realtime=1
+'''
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
 
