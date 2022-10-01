@@ -27,9 +27,9 @@ set list
 
 " indent
 set smartindent
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 set expandtab
 set smarttab
 
@@ -181,13 +181,15 @@ let g:airline_theme = 'badwolf'
 " rust
 let g:rustfmt_autosave = 1
 
+" golang
+au FileType go setlocal sw=4 ts=4 sts=4 noet
+
 " LSP
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
   setlocal signcolumn=yes
   nmap <buffer> gd <plug>(lsp-definition)
-  nmap <buffer> <C-]> <plug>(lsp-definition)
-  nmap <buffer> <f2> <plug>(lsp-rename)
+  nmap <buffer> gr <plug>(lsp-rename)
   nmap <buffer> <Leader>d <plug>(lsp-type-definition)
   nmap <buffer> <Leader>r <plug>(lsp-references)
   nmap <buffer> <Leader>i <plug>(lsp-implementation)

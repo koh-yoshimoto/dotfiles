@@ -148,6 +148,7 @@ hook_add = '''
     \ <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
     \ : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
     \ <bang>0)
+    nnoremap <silent> ,r :Rg<CR>
     nnoremap <silent> ,f :GFiles<CR>
     nnoremap <silent> ,F :GFiles?<CR>
     nnoremap <silent> ,b :Buffers<CR>
@@ -170,3 +171,9 @@ hook_add = '''
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 
+# golang
+[[plugins]]
+repo = 'mattn/vim-goimports'
+hook_add = '''
+    let g:goimports = 1
+'''
