@@ -92,6 +92,7 @@ hook_add = '''
   augroup END
 '''
 
+# file tree
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
@@ -176,4 +177,17 @@ repo = 'tyru/open-browser.vim'
 repo = 'mattn/vim-goimports'
 hook_add = '''
     let g:goimports = 1
+'''
+
+# leetcode
+[[plugins]]
+repo = 'ianding1/leetcode.vim'
+
+hook_add = '''
+    let g:leetcode_browser = 'chrome'
+    let g:leetcode_solution_filetype = 'golang'
+    nnoremap <leader>ll :LeetCodeList<CR>
+    nnoremap <leader>lt :LeetCodeTest<CR>
+    nnoremap <leader>ls :LeetCodeSubmit<CR>
+    nnoremap <leader>li :LeetCodeSignIn<CR>
 '''

@@ -171,12 +171,13 @@ endif
 
 "end dein scripts-------------------------
 
-let g:python3_host_prog="/usr/bin/python3"
+" let g:python3_host_prog="/usr/bin/python3"
+let g:python3_host_prog="/opt/homebrew/bin/python3"
+"
 
 " colorsheme
 colorscheme gruvbox-material
 let g:airline_theme = 'badwolf'
-
 
 " rust
 let g:rustfmt_autosave = 1
@@ -189,10 +190,14 @@ function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
   setlocal signcolumn=yes
   nmap <buffer> gd <plug>(lsp-definition)
-  nmap <buffer> gr <plug>(lsp-rename)
-  nmap <buffer> <Leader>d <plug>(lsp-type-definition)
-  nmap <buffer> <Leader>r <plug>(lsp-references)
-  nmap <buffer> <Leader>i <plug>(lsp-implementation)
+  nmap <buffer> gr <plug>(lsp-references)
+  nmap <buffer> gi <plug>(lsp-implementation)
+  nmap <buffer> gt <plug>(lsp-type-definition)
+  nmap <buffer> <Leader>rn <plug>(lsp-rename)
+  nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+  nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+  nmap <buffer> K <plug>(lsp-hover)
+  nmap <buffer> <C-.> <plug>(lsp-code-action)
   inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 endfunction
 
@@ -210,6 +215,7 @@ let g:asyncomplete_popup_delay = 200
 let g:lsp_text_edit_enabled = 1
 let g:lsp_preview_float = 1
 let g:lsp_diagnostics_float_cursor = 1
+" golang lsp setting
 let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
 
 let g:lsp_settings = {}
