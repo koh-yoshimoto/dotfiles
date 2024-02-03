@@ -1,0 +1,45 @@
+window:
+  dimensions:
+    columns: 200
+    lines: 60
+
+  padding:
+    x: 8
+    y: 4
+  opacity: 0.95
+
+scrolling:
+  history: 10000
+
+font:
+  normal:
+    family: 'Hack Nerd Font Mono'
+    style: Regular
+
+  bold:
+    family: 'Hack Nerd Font Mono'
+    style: Bold
+
+  italic:
+    family: 'Hack Nerd Font Mono'
+    style: Italic
+
+  bold_italic:
+    family: 'Hack Nerd Font Mono'
+    style: Bold Italic
+
+  size: 14.0
+
+  offset:
+    y: 1
+
+shell:
+  program: /bin/zsh
+
+# https://github.com/eendroroy/alacritty-theme
+# ~/.config/.alacritty-colorscheme/themes/[theme_name].yaml
+import:
+  - d /Users/koh/.config/.alacritty-colorscheme/themes
+
+env:
+  TERM: xterm-256color
