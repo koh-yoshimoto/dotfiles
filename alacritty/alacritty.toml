@@ -1,0 +1,43 @@
+import = ["d /Users/koh/.config/.alacritty-colorscheme/themes"]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 14.0
+
+[font.bold]
+family = "Hack Nerd Font Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "Hack Nerd Font Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "Hack Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "Hack Nerd Font Mono"
+style = "Regular"
+
+[font.offset]
+y = 1
+
+[scrolling]
+history = 10000
+
+[shell]
+program = "/bin/zsh"
+
+[window]
+opacity = 0.95
+
+[window.dimensions]
+columns = 200
+lines = 60
+
+[window.padding]
+x = 8
+y = 4
