@@ -29,6 +29,17 @@ require('packer').startup(function(use)
 		}
 	}
 
+	use {
+		'hrsh7th/vim-vsnip',
+	}
+
+	use {
+		"nvimtools/none-ls.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+		}
+	}
+
 	-- FZF
 	use { 'ibhagwan/fzf-lua',
 		-- optional for icon support
@@ -71,6 +82,8 @@ require('packer').startup(function(use)
 
 	-- Git
 	use 'tpope/vim-fugitive'
+
+	use 'github/copilot.vim'
 end)
 
 -- Mason
@@ -90,12 +103,30 @@ require('mason-lspconfig').setup_handlers {
 	end,
 }
 
+local null_ls = require "null-ls"
+null_ls.setup {
+  sources = {
+    null_ls.builtins.formatting.prettier.with {
+      prefer_local = "node_modules/.bin",
+    },
+  },
+}
+
 local cmp = require 'cmp'
 local map = cmp.mapping
 cmp.setup {
-	mapping = map.preset.insert {
-		['<ESC>'] = map.abort(),
-	},
+	snippet = {
+		expand = function(args)
+			vim.fn["vsnip#anonymous"](args.body)
+		end,
+  },
+	mapping = cmp.mapping.preset.insert({
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ['<C-l>'] = cmp.mapping.complete(),
+    ['<ESC>'] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm { select = true },
+  }),
 	sources = cmp.config.sources {
 	  { name = 'nvim_lsp' },
 	},
@@ -281,7 +312,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
 		vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-		vim.keymap.set('n', 'H', vim.lsp.buf.hover, opts)
+		vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts)
+		vim.keymap.set('n', 'g.', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+		vim.keymap.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
+		vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+		vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
 		-- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 		-- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
 		-- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
@@ -296,6 +331,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end, opts)
 	end,
 })
+
+-- LSP handlers
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+)
+-- Reference highlight
+-- vim.cmd [[
+-- set updatetime=500
+-- highlight LspReferenceText  cterm=underline ctermfg=1 ctermbg=8 gui=underline guifg=#A00000 guibg=#104040
+-- highlight LspReferenceRead  cterm=underline ctermfg=1 ctermbg=8 gui=underline guifg=#A00000 guibg=#104040
+-- highlight LspReferenceWrite cterm=underline ctermfg=1 ctermbg=8 gui=underline guifg=#A00000 guibg=#104040
+-- augroup lsp_document_highlight
+--   autocmd!
+--   autocmd CursorHold,CursorHoldI * lua vim.lsp.buf.document_highlight()
+--   autocmd CursorMoved,CursorMovedI * lua vim.lsp.buf.clear_references()
+-- augroup END
+-- ]]
 
 -- ====================
 -- FZF Settings
